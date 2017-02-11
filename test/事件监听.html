@@ -6,15 +6,34 @@
 	<script src="https://unpkg.com/vue/dist/vue.js"></script>
 </head>
 <body>
-<div id="example">
+<!-- <div id="example">
 	<button v-on:click='counter +=1'>增加1</button>
 	<p>这个按钮点击了{{ counter }}次</p>
 </div>
-<script type="text/javascript">
-	var example = new Vue({
-		el:'#example',
+ -->
+<!-- 方法事件处理器 -->
+<div id="example1">
+	<button v-on:click='greet'>Greet</button>
+</div>
+ <script type="text/javascript">
+	// var example = new Vue({
+	// 	el:'#example',
+	// 	data:{
+	// 		counter: 0
+	// 	}
+	// })
+	var example1= new Vue({
+		el:'#example1',
 		data:{
-			counter: 0
+			name:'Vue.js'
+		},
+		methods:{
+			greet:function(event){
+				alert('Hello'+this.name+'!')
+				if(event){
+					alert(event.target.tagName)
+				}
+			}
 		}
 	})
 </script>
