@@ -1,0 +1,23 @@
+<html>
+  <head>
+  	<meta charset="utf-8">
+  </head>
+  <body>
+    <div id="app">
+    <!-- 让用户输入代办内容 -->
+    	<div class="newTask">
+    		<input type="text" name="todo" v-model='newTodo' @keyup.enter='addTodo'>
+    	</div>
+    	<!-- 容纳所有代办事项 -->
+    	<ol class="todos">
+       <li v-for='todo in todoList'>
+         <input type="checkbox" v-model='todo.done' name="">{{todo.title}}
+         <span v-if='todo.done'>已完成</span>
+         <span v-else>未完成</span>
+         <button @click="removeTodo(todo)">X</button>
+       </li> 
+      </ol>
+    </div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
