@@ -1,4 +1,4 @@
 export default function bar() {
   //
-  alert('Hello Wenpack!');
+  alert('Hello Webpack!');
 }
