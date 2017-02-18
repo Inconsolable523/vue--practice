@@ -75,6 +75,11 @@ var app=new Vue({
 				alert('登录失败！');
 			});
 		},
+		logout:function(){
+			AV.User.logOut();
+			this.currentUser = AV.User.current();
+			window.location.reload();
+		},
 		getCurrentUser:function(){
 			let {id,createdAt,attributes:{username}}= AV.User.current();
 			return {id,username,createdAt};

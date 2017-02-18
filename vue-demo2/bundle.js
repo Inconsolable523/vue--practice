@@ -25041,6 +25041,11 @@ var app = new _vue2.default({
 				alert('登录失败！');
 			});
 		},
+		logout: function logout() {
+			_leancloudStorage2.default.User.logOut();
+			this.currentUser = _leancloudStorage2.default.User.current();
+			window.location.reload();
+		},
 		getCurrentUser: function getCurrentUser() {
 			var _AV$User$current = _leancloudStorage2.default.User.current(),
 			    id = _AV$User$current.id,
