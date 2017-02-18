@@ -24992,20 +24992,73 @@ var app = new _vue2.default({
 			password: ''
 		}
 	},
+	// 因为刷新页面会跳转到其他页面，那当前页面的请求就没有意义了，所以浏览器就直接取消了这个请求，所以
+	// beforeunload事件里面的所有请求都发不出去，所以无法保存数据
+	// created: function(){
+	//    // onbeforeunload文档：https://developer.mozilla.org/zh-CN/docs/Web/API/Window/onbeforeunload
+	//    window.onbeforeunload = ()=>{
+	//    	// 保存数据
+	//      let dataString = JSON.stringify(this.todoList) ;// JSON 文档: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON
+	//      var todos=AV.Object.extend('todos');
+	//      var toDos=new todos();
+	//      toDos.set('content',dataString);
+	//      toDos.save().then(function(todo){
+	//      	console.log('保存成功');
+	//      },function(error){
+	//      	console.error('保存失败');
+	//      })
+	//      debugger;
+
+	//    }
+	//  },
 	created: function created() {
-		var _this = this;
-
-		// onbeforeunload文档：https://developer.mozilla.org/zh-CN/docs/Web/API/Window/onbeforeunload
-		window.onbeforeunload = function () {
-			var dataString = JSON.stringify(_this.todoList); // JSON 文档: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON
-			window.localStorage.setItem('myTodos', dataString); // 看文档https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage
-		};
-
-		var oldDataString = window.localStorage.getItem('myTodos');
-		var oldData = JSON.parse(oldDataString);
-		this.todoList = oldData || [];
+		// 读取
+		this.currentUser = this.getCurrentUser();
+		this.getTodos();
 	},
 	methods: {
+		getTodos: function getTodos() {
+			var _this = this;
+
+			if (this.currentUser) {
+				var query = new _leancloudStorage2.default.Query('todos');
+				query.find().then(function (todo) {
+					var getTodo = todo[0];
+					var id = getTodo.id;
+					_this.todoList = JSON.parse(getTodo.attributes.content);
+					_this.todoList.id = id;
+					console.log(todo);
+				}, function (error) {
+					console.error(error);
+				});
+			}
+		},
+		updateTodos: function updateTodos() {
+			var dataString = JSON.stringify(this.todoList);
+			var todo = _leancloudStorage2.default.Object.createWithoutData('todos', this.todoList.id);
+			todo.set('content', dataString);
+			todo.save().then(function () {
+				console.log('更新成功');
+			});
+		},
+		saveTodos: function saveTodos() {
+			var _this2 = this;
+
+			var dataString = JSON.stringify(this.todoList);
+			var todos = _leancloudStorage2.default.Object.extend('todos');
+			var toDos = new todos();
+			var acl = new _leancloudStorage2.default.ACL();
+			acl.setReadAccess(_leancloudStorage2.default.User.current(), true); //只有这个用户可读
+			acl.setWriteAccess(_leancloudStorage2.default.User.current(), true); //只有这个用户可写
+			toDos.set('content', dataString);
+			toDos.setACL(acl); //设置访问权限 
+			toDos.save().then(function (todo) {
+				_this2.todoList.id = todo.id;
+				console.log('保存成功');
+			}, function (error) {
+				console.error('保存失败');
+			});
+		},
 		addTodo: function addTodo() {
 			this.todoList.push({
 				title: this.newTodo,
@@ -25013,32 +25066,36 @@ var app = new _vue2.default({
 				done: false
 			});
 			this.newTodo = '';
-			console.log(this.todoList);
+			// this.saveTodos();//新增的时候保存请求
+			this.change();
 		},
 		removeTodo: function removeTodo(todo) {
 			var index = this.todoList.indexOf(todo);
 			console.log(this.todoList);
 			this.todoList.splice(index, 1);
+			// this.saveTodos();//删除的时候保存请求
+			this.change();
 		},
 		signup: function signup() {
-			var _this2 = this;
+			var _this3 = this;
 
 			var user = new _leancloudStorage2.default.User();
 			user.setUsername(this.formData.username);
 			user.setPassword(this.formData.password);
 			user.signUp().then(function (loginedUser) {
-				_this2.currentUser = _this2.getCurrentUser();
+				_this3.currentUser = _this3.getCurrentUser();
 			}, function (error) {
-				alert('注册失败！');
+				console.log('注册失败！');
 			});
 		},
 		login: function login() {
-			var _this3 = this;
+			var _this4 = this;
 
 			_leancloudStorage2.default.User.logIn(this.formData.username, this.formData.password).then(function (loginedUser) {
-				_this3.currentUser = _this3.getCurrentUser();
+				_this4.currentUser = _this4.getCurrentUser();
+				_this4.getTodos();
 			}, function (error) {
-				alert('登录失败！');
+				console.log('登录失败！');
 			});
 		},
 		logout: function logout() {
@@ -25047,12 +25104,24 @@ var app = new _vue2.default({
 			window.location.reload();
 		},
 		getCurrentUser: function getCurrentUser() {
-			var _AV$User$current = _leancloudStorage2.default.User.current(),
-			    id = _AV$User$current.id,
-			    createdAt = _AV$User$current.createdAt,
-			    username = _AV$User$current.attributes.username;
+			var current = _leancloudStorage2.default.User.current();
+			if (current) {
+				var _AV$User$current = _leancloudStorage2.default.User.current(),
+				    id = _AV$User$current.id,
+				    createdAt = _AV$User$current.createdAt,
+				    username = _AV$User$current.attributes.username;
 
-			return { id: id, username: username, createdAt: createdAt };
+				return { id: id, username: username, createdAt: createdAt };
+			} else {
+				return null;
+			}
+		},
+		change: function change() {
+			if (this.todoList.id) {
+				this.updateTodos();
+			} else {
+				this.saveTodos();
+			}
 		}
 	}
 });
