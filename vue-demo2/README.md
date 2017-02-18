@@ -4,4 +4,4 @@
 3. `webpack`
 4. 打开page.html
 
-预览地址：http://zhichaoblog.com/vue--practice/vue-demo2/page.html
+预览地址：https://inconsolable523.github.io/vue--practice/vue-demo2/page.html
