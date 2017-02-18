@@ -4,31 +4,32 @@
   </head>
   <body>
     <div id="app">
-    <section id="signInAndSignUp">
+    <section id="signInAndSignUp" v-if='!currentUser'>
       <div>
         <label><input type="radio" name="type" value="signup" v-model='actionType'>注册</label>
         <label><input type="radio" name="type" value="login" v-model='actionType'>登入</label>
       </div>
       <div class="signUp" v-if="actionType=='signup'">
-        <form>
+        <form @submit.prevent='signup'>
           <div class="formRow">
-          	用户名<input type="text" name="用户名">
+          	用户名<input type="text" name="用户名" v-model='formData.username'>
           </div>
           <div class="formRow">
-          	密码<input type="password" name="用户名">
+          	密码<input type="password" name="用户名" v-model='formData.password'>
           </div>
           <div class="formActions">
           	<input type="submit" name="注册" value="注册">
           </div>
         </form>
       </div>
+
        <div class="login" v-if="actionType=='login'">
-        <form>
+        <form @submit.prevent='login'>
           <div class="formRow">
-          	用户名<input type="text" name="用户名">
+          	用户名<input type="text" name="用户名" v-model='formData.username'>
           </div>
           <div class="formRow">
-          	密码<input type="password" name="用户名">
+          	密码<input type="password" name="用户名" v-model='formData.password'>
           </div>
           <div class="formActions">
           	<input type="submit" name="登录" value="登录">
@@ -37,7 +38,7 @@
       </div>
 
     </section>
-    <section id="todo">
+    <section id="todo" v-if='currentUser'>
     <!-- 让用户输入代办内容 -->
     	<div class="newTask">
     		<input type="text" name="todo" v-model='newTodo' @keyup.enter='addTodo'>
