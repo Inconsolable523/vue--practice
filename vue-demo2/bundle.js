@@ -25085,7 +25085,7 @@ var app = new _vue2.default({
 			user.signUp().then(function (loginedUser) {
 				_this3.currentUser = _this3.getCurrentUser();
 			}, function (error) {
-				console.log('注册失败！');
+				alert('注册失败！');
 			});
 		},
 		login: function login() {
@@ -25095,7 +25095,7 @@ var app = new _vue2.default({
 				_this4.currentUser = _this4.getCurrentUser();
 				_this4.getTodos();
 			}, function (error) {
-				console.log('登录失败！');
+				alert('登录失败！');
 			});
 		},
 		logout: function logout() {
