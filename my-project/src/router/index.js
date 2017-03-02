@@ -1,22 +1,28 @@
+/**
+ *  Created by zhichao on 2017/3/2.
+ */
 import Vue from 'vue'
-import Router from 'vue-router'
-import Resource from 'vue-resource'
-import Hello from '@/components/Home'
+import VueRouter from 'vue-router'
+import VueResource from 'vue-resource'
+
+import Home from '../components/Home'
 import 'bootstrap/dist/css/bootstrap.css'
 
+//开启debug模式
+//Vue.config.debug = true;
 
-Vue.use(Router)
-Vue.use(Resource)
+Vue.use(VueRouter)
+Vue.use(VueResource)
 
-export default new Router({
-  routes: [
+export default new VueRouter({
+  routes:[
     {
-      path: '/',
-      component: Home
-    },
-    {
-      path: '/home',
-      component:Home
-    }
+  path : '/',
+  component : Home
+},{
+  path : '/home',
+  component : Home
+}
   ]
 })
+
