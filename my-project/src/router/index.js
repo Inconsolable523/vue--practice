@@ -7,6 +7,7 @@ import VueResource from 'vue-resource'
 
 import Home from '../components/Home'
 import 'bootstrap/dist/css/bootstrap.css'
+import TimeEntries from '../components/TimeEntries'
 
 //开启debug模式
 //Vue.config.debug = true;
@@ -22,7 +23,10 @@ export default new VueRouter({
 },{
   path : '/home',
   component : Home
-}
+},{
+    path:'/time-entries',
+      component:TimeEntries
+    }
   ]
 })
 

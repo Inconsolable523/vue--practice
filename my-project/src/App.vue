@@ -14,7 +14,7 @@
     </nav>
     <div class="container">
       <div class="col-sm-3">
-
+          <sidebar></sidebar>
       </div>
       <div class="col-sm-9">
         <router-view></router-view>
@@ -25,9 +25,13 @@
 </template>
 
 <script>
+  import Sidebar from './components/Sidebar'
 export default {
-  name: 'app'
-  
+  name: 'app',
+  components:{
+    Sidebar
+  }
+
 }
 </script>
 
