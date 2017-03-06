@@ -1,5 +1,7 @@
+<!--应用的初始化组件-->
 <template>
    <div id="wrapper">
+     <!--导航栏-->
     <nav class="navbar navbar-default">
       <div class="container">
         <a class="navbar-brand" href="#">
@@ -12,12 +14,14 @@
         </ul>
       </div>
     </nav>
+     <!--存放需要展示的东西-->
     <div class="container">
       <!--侧边栏-->
       <div class="col-sm-3">
           <sidebar></sidebar>
       </div>
       <div class="col-sm-9">
+        <!--vue-router通过这个标签进行切换-->
         <router-view></router-view>
       </div>
     </div>

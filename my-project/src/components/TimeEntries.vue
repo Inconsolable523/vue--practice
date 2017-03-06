@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--$route.path字符串，对应当前路由的路径，总是解析为绝对路径，如 "/foo/bar"。-->
     <router-link
       v-if="$route.path !== '/time-entries/log-time'"
       to="/time-entries/log-time"
