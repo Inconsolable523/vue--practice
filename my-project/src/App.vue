@@ -13,6 +13,7 @@
       </div>
     </nav>
     <div class="container">
+      <!--侧边栏-->
       <div class="col-sm-3">
           <sidebar></sidebar>
       </div>
@@ -29,7 +30,7 @@
 export default {
   name: 'app',
   components:{
-    Sidebar
+    'sidebar': Sidebar
   }
 
 }

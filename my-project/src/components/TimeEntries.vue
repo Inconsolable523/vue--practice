@@ -1,71 +1,87 @@
-<!--创建时间跟踪列表-->
 <template>
   <div>
     <router-link
-      v-if="$route.path!=='/time-entries/log-time'"
+      v-if="$route.path !== '/time-entries/log-time'"
       to="/time-entries/log-time"
-    class="btn btn-primary">
+      class="btn btn-primary">
       创建
     </router-link>
-  </div>
-  <div v-if="$route.path === '/time-entries/log-time'">
-    <h3>创建</h3>
-  </div>
-  <hr>
 
-  <router-view></router-view>
-  <div class="time-entries">
-    <p v-if="!plans.length"><strong>还没有任何计划</strong></p>
-    <div class="list-group">
-      <a class="list-group-item" v-for="(plan,index) in plans">
-        <div class="row">
-          <div class="col-sm-2 user-details">
-            <img :src="plan.avatar" class="avatar img-circle img-responsive">
-            <p class="text-center">
-              <strong>
-                {{plan.name}}
-              </strong>
-            </p>
-          </div>
+    <div v-if="$route.path === '/time-entries/log-time'">
+      <h3>创建</h3>
+    </div>
 
-          <div class="col-sm-2 text-center time-block">
-            <h3 class="list-group-item-text total-time">
-              <i class="glyphicon glyphicon-calendar"></i>
-              {{plan.date}}
-            </h3>
-          </div>
+    <hr>
 
-          <div class="col-sm-7 comment-section">
-            <p>{{plan.comment}}</p>
-          </div>
+    <router-view></router-view>
 
-          <div class="col-sm-1">
-            <button
-              class="btn btn-xs btn-danger delete-button"
-              @click="deletePlan(index)">X
-            </button>
+    <div class="time-entries">
+      <p v-if="!plans.length"><strong>还没有任何计划</strong></p>
+
+      <div class="list-group">
+        <a class="list-group-item" v-for="(plan,index) in plans">
+          <div class="row">
+            <div class="col-sm-2 user-details">
+
+
+              <img :src="plan.avatar" class="avatar img-circle img-responsive" />
+              <p class="text-center">
+                <strong>
+                  {{ plan.name }}
+                </strong>
+              </p>
+            </div>
+
+            <div class="col-sm-2 text-center time-block">
+              <h3 class="list-group-item-text total-time">
+                <i class="glyphicon glyphicon-time"></i>
+                {{ plan.totalTime }}
+              </h3>
+              <p class="label label-primary text-center">
+                <i class="glyphicon glyphicon-calendar"></i>
+                {{ plan.date }}
+              </p>
+            </div>
+
+            <div class="col-sm-7 comment-section">
+              <p>{{ plan.comment }}</p>
+            </div>
+
+            <div class="col-sm-1">
+              <button
+                class="btn btn-xs btn-danger delete-button"
+                @click="deletePlan(index)">
+                X
+              </button>
+            </div>
+
           </div>
-        </div>
-      </a>
+        </a>
+
+      </div>
     </div>
   </div>
 </template>
 
-<script lang='babel'>
-    export default{
-        name:'TimeEntries',
-      computed:{
-            plans(){
-                return this.$store.state.list
-            }
-      },
-      methods:{
-            deletePlan(idx){
-                this.$store.dispatch('decTotalTime',this.plans[idx].totalTime)
-              this.$store.dispatch('deletePlan',idx)
-            }
+<script>
+  export default {
+    name : 'TimeEntries',
+    computed : {
+      plans () {
+        // 从store中取出数据
+        return this.$store.state.list
       }
-    };
+    },
+    methods : {
+      deletePlan(idx) {
+        // 稍后再来说这里的方法
+        // 减去总时间
+        this.$store.dispatch('decTotalTime',this.plans[idx].totalTime)
+        // 删除该计划
+        this.$store.dispatch('deletePlan',idx)
+      }
+    }
+  }
 </script>
 
 <style>
@@ -87,3 +103,5 @@
     padding: 20px;
   }
 </style>
+
+

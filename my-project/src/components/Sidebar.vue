@@ -10,7 +10,7 @@
 
 </template>
 
-<script lang='babel'>
+<script >
     export default{
         computed:{
             time(){
