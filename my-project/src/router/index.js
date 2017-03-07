@@ -25,7 +25,12 @@ export default new VueRouter({
   component : Home
 },{
     path:'/time-entries',
-      component:TimeEntries
+      component:TimeEntries,
+      children:[{
+      path:'log-time',
+        // 懒加载
+        component:resolve=>require(['./components/LogTime.vue'],resolve)
+      }]
     }
   ]
 })
