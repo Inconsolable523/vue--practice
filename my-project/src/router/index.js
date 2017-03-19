@@ -8,6 +8,7 @@ import VueResource from 'vue-resource'
 import Home from '../components/Home'
 import 'bootstrap/dist/css/bootstrap.css'
 import TimeEntries from '../components/TimeEntries'
+import LogTime from '../components/LogTime.vue'
 
 //开启debug模式
 //Vue.config.debug = true;
@@ -28,8 +29,9 @@ export default new VueRouter({
       component:TimeEntries,
       children:[{
       path:'log-time',
+        component:LogTime,
         // 懒加载
-        component:resolve=>require(['./components/LogTime.vue'],resolve)
+        component:resolve=>require(['../components/LogTime.vue'],resolve)
       }]
     }
   ]
