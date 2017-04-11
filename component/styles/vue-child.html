@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>demo</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+<parent-component></parent-component>
+</div>
+<script>
+    var Child=Vue.extend({
+    template:'<p>this is a child compont</p>'
+})
+
+    var Parent=Vue.extend({
+//        在parent组件内使用child-component标签
+        template:'<p>this is a parent component</p><child-component></child-component>',
+        components:{
+//局部注册child组件，只能在parent组件中使用
+            'child-component':Child
+        }
+    })
+
+    // 全局注册Parent组件
+    Vue.component('parent-component', Parent)
+    new Vue({
+        el:"#app"
+//        components:{
+//            'parrnt-component':Parent
+//        }
+    })
+</script>
+</body>
+</html>

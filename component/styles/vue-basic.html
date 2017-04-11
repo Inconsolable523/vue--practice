@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>demo</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--3.使用组件-->
+    <my-component></my-component>
+</div>
+<script>
+//    1.创建一个组件构造器
+    var myComponent=Vue.extend({
+        template:'<div>this is my first component!</div>'
+    })
+//    2.全局注册组件，指定组件的标签<my-component>
+//    Vue.component('my-component',myComponent);
+
+    new Vue({
+        el:'#app',
+        components:{
+            'my-component':myComponent
+        }
+
+    })
+</script>
+</body>
+</html>

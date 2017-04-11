@@ -1,0 +1,74 @@
+<!--
+ --   Created by zhichao on 2017/4/12.
+-->
+<!--props单向绑定-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<!--定义子组件的模板-->
+<template id="myComponent">
+    <table>
+        <tr>
+            <th colspan="2">
+                子组件数据
+            </th>
+        </tr>
+        <tr>
+            <td>my name</td>
+            <td>{{ myName }}</td>
+            <td>
+                <input type="text" v-model="myName">
+            </td>
+        </tr>
+        <tr>
+            <td>my age</td>
+            <td>{{myAge}}</td>
+            <td>
+                <input type="text" v-model="myAge">
+            </td>
+        </tr>
+    </table>
+</template>
+
+<!--将父组件数据通过定义好的props传递给子组件-->
+<div id="app">
+    <table>
+        <tr>
+            <th colspan="3">父组件数据</td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>{{ name }}</td>
+            <td><input type="text" v-model="name" /></td>
+        </tr>
+        <tr>
+            <td>age</td>
+            <td>{{ age }}</td>
+            <td><input type="text" v-model="age" /></td>
+        </tr>
+    </table>
+    <my-component v-bind:my-name="name" v-bind:my-age="age"></my-component>
+</div>
+<script>
+//    将这个实例看做my-component的父组件
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            name:'zhichao',
+            age:28
+        },
+        components:{
+            'my-component':{
+                template:'#myComponent',
+                props:['myName','myAge']
+            }
+        }
+    })
+</script>
+</body>
+</html>
