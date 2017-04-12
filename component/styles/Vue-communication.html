@@ -1,0 +1,52 @@
+<!--
+ --   Created by zhichao on 2017/4/12.
+-->
+<!--未完成-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <currency-input label="Price" v-model="price"></currency-input>
+    <currency-input label="Shipping" v-model="shipping"></currency-input>
+    <currency-input label="Handling" v-model="handing"></currency-input>
+    <currency-input label="Discount" v-model="discount"></currency-input>
+
+    <p>Total: ${{total}}</p>
+</div>
+
+<template id="currency">
+    <div>
+        <label v-if="label">{{label}}</label>
+        $<input ref="input" v-bind:value="value " v-on:input="updateValue($event.target.value)" v-on:focus="selectAll" v-on:blur="formatValue">
+    </div>
+</template>
+<script>
+    Vue.component('currency-input',{
+        template:'#currency',
+        props:{
+            value:{
+                type:Number,
+                default:0
+            },
+            label:{
+                type:String,
+                default:''
+            }
+        },
+        mounted:function(){
+            this.formateValue()
+        },
+        methods:{
+            updateValue:function (value) {
+                var result=currency
+            }
+        }
+    })
+</script>
+</body>
+</html>
